@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Canvas Particles</title>
+		<style type="text/css">
+			body, html {
+				height:100%;
+			}
+			
+			html {
+				font-size:62.5%;
+			}
+			body {
+				font-size = 1.6rem;
+				background-color:#000;
+			}
+			.flex-row {
+				display:flex;
+			}
+			.flex-col {
+				display:flex;
+				flex-direction :column;
+			}
+			.page-container {
+				width:100%;
+				height:100%;
+				box-sizing:border-box;
+			}
+			</style>
+		
+	</head>
+	<body >
+		<div class="page-container">
+			<div class="page-container__inner">
+				<canvas id = "canvas"></canvas>
+			</div>
+		
+			
+		</div>
+		<script>
+		
+				const canvas = document.getElementById('canvas');
+					const context = canvas.getContext('2d');
+				const particles = [];
+			
+				const num_particles = 1000;
+				
+				var stop = false;
+			
+				function getRandomColor() {
+					let r = 0;
+					let g = 0;
+					let b = 0;
+				
+					r = Math.floor(Math.random() * 156 + 100);
+					g = Math.floor(Math.random() * 156 + 100);
+					b = Math.floor(Math.random() * 156 + 100);
+					
+					const randomColor = `rgb(${r}, ${g}, ${b})`;
+					return randomColor;
+				}
+				
+					
+				const particle =  function() {
+					this.x = canvas.width * Math.random();
+					this.y = canvas.height * Math.random();
+					
+					this.vx = 4 * Math.random() - 2;
+					this.vy = 4 * Math.random() - 2; ;
+					this.color = getRandomColor();
+					//alert(this.color);
+				}
+				
+				
+				particle.prototype.draw = function(ctx) {
+					ctx.beginPath()
+					ctx.fillStyle = this.color;
+					//ctx.fillRect(this.x,this.y, 3,3);
+					ctx.arc(this.x,this.y, 1.5, 0, Math.PI * 2, false);
+					ctx.fill();
+				
+				}
+				
+				particle.prototype.update = function() {
+					this.x += this.vx;
+					this.y += this.vy;
+					
+					if (this.x < 0 || this.x > canvas.width) {
+						this.vx = -this.vx;
+					}
+					if (this.y < 0 || this.y > canvas.height) {
+						this.vy = -this.vy;
+					}
+				}
+			
+				function loop() {
+					if (stop) return ;
+					context.clearRect(0,0, canvas.width,canvas.height);
+					for (let i = 0; i < num_particles; i++) {
+						particles[i].update();
+						particles[i].draw(context);
+					}
+					
+					requestAnimationFrame(loop);
+				}
+		
+				function initCanvas() {
+				
+					canvas.width = window.innerWidth;
+					canvas.height = window.innerHeight;
+				
+					for (let i = 0; i < num_particles; i++) {
+						particles.push(new particle());
+						//alert(i);
+					}
+					
+					loop();
+				}
+				
+				initCanvas();
+				
+				
+			
+				
+				canvas.addEventListener('click', function(e){
+					stop = !stop;
+					if (!stop) {
+						requestAnimationFrame(loop);
+					}
+				});
+				//
+			
+			</script>
+	</body>
+</html>

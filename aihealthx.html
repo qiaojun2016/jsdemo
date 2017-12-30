@@ -1,0 +1,85 @@
+<html>
+ <head>
+  <script type="application/javascript">
+  function getRandomColor() {
+			let r = 0;
+			let g = 0;
+			let b = 0;
+				
+				r = Math.floor(Math.random() * 156 + 100);
+				g = Math.floor(Math.random() * 156 + 100);
+				b = Math.floor(Math.random() * 156 + 100);
+					
+				const randomColor = `rgb(${r}, ${g}, ${b})`;
+					return randomColor;
+			}
+  function drawCricle(x,y, radius,ctx) {
+	
+		ctx.save();
+		ctx.beginPath();
+		ctx.fillStyle= getRandomColor();
+		ctx.arc(x,y,radius,0,Math.PI*2,true); // 绘制
+		ctx.fill();
+		ctx.restore();
+		
+		ctx.font = "10px serif";
+		var text = ctx.measureText("Hello world");
+		ctx.fillText("Hello world", x - text.width/2, y+5);
+		
+	}
+    function draw() {
+      var canvas = document.getElementById("canvas");
+	  canvas.width = window.innerWidth;
+	  canvas.height = window.innerHeight;
+	  var centerX = canvas.width /2;
+	  var centerY = canvas.height /2;
+      if (canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+		
+		
+		ctx.save();
+		ctx.translate(centerX, centerY);
+		
+		for (var i= 0; i < 13; i++)
+		{
+			var len = 200;
+			ctx.save();
+			ctx.rotate(Math.PI * 2/13 * i);
+			ctx.beginPath();
+			ctx.moveTo(0,0);
+			if (i % 2 == 0) len = 200;
+			else len = 240;
+			ctx.lineTo(0,len);
+			ctx.stroke();
+			drawCricle(0, len, 40, ctx);
+			ctx.restore();
+		}
+		
+		ctx.restore();
+		
+		
+		drawCricle(centerX,centerY, 50,ctx);
+		
+		/*drawCricle(centerX + 200, centerY+150, 40, ctx);
+		drawCricle(centerX + 200, centerY-150, 40, ctx);
+		drawCricle(centerX + 200, centerY-100, 40, ctx);
+		drawCricle(centerX + 100, centerY+50, 40, ctx);
+		drawCricle(centerX - 200, centerY+150, 40, ctx);
+		drawCricle(centerX + 200, centerY+150, 40, ctx);*/
+		
+		
+		
+		
+	
+    }
+}
+	
+	
+	
+				
+  </script>
+ </head>
+ <body onload="draw();">
+   <canvas id="canvas"></canvas>
+ </body>
+</html>
