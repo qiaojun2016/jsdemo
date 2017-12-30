@@ -47,39 +47,81 @@
 			ctx.rotate(Math.PI * 2/13 * i);
 			ctx.beginPath();
 			ctx.moveTo(0,0);
-			if (i % 2 == 0) len = 200;
-			else len = 240;
-			ctx.lineTo(0,len);
+		
+			len = 200;
+			ctx.lineTo(0,len* 2 /3);
+			ctx.lineTo(20,len);
+	
 			ctx.stroke();
 			drawCricle(0, len, 40, ctx);
+			
+			// 画椭圆
+			ctx.beginPath();
+			ctx.ellipse(0, len, 50, 55, Math.PI/180 * 90, 0, 2 * Math.PI);
+			ctx.stroke();
+				
+			// 虚线椭圆
+			ctx.beginPath();
+			ctx.setLineDash([5,5]);
+			ctx.ellipse(0, len, 65, 70, Math.PI/180 * 90, 0, 2 * Math.PI);
+			ctx.stroke();
+			
 			ctx.restore();
 		}
 		
 		ctx.restore();
-		
-		
 		drawCricle(centerX,centerY, 50,ctx);
-		
-		/*drawCricle(centerX + 200, centerY+150, 40, ctx);
-		drawCricle(centerX + 200, centerY-150, 40, ctx);
-		drawCricle(centerX + 200, centerY-100, 40, ctx);
-		drawCricle(centerX + 100, centerY+50, 40, ctx);
-		drawCricle(centerX - 200, centerY+150, 40, ctx);
-		drawCricle(centerX + 200, centerY+150, 40, ctx);*/
-		
-		
-		
-		
+		ctx.beginPath();
 	
+		ctx.ellipse(centerX, centerY, 50, 60, Math.PI/180 * 90, 0, 2 * Math.PI);
+		ctx.stroke();
     }
 }
+
+
 	
+	function init() {
+		//window.setInterval(draw, 1000);
+		draw();
+	}
 	
+		
+		
+		
+		
+		
+		
+
+	/*
+
+	(function(){
+		window.addEventListener("resize", resizeThrottler,false);
+		
+		var resizeTimeout;
+		function resizeThrottler() {
+			if (!resizeTimeout) {
+				resizeTimeout = setTimeout(function() {
+					resizeTimeout = null;
+					actualResizeHandler();
+				}, 1);
+			}
+		}
+		function actualResizeHandler() {
+			draw();
+		}
+	});
+	*/
 	
 				
   </script>
+  <style>
+  #canvas {
+  width:100%;
+  height:100%;
+  }
+  </style>
  </head>
- <body onload="draw();">
+ <body onload="init();">
    <canvas id="canvas"></canvas>
  </body>
 </html>
